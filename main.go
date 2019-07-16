@@ -1,9 +1,16 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"gopher-messanger/server"
+)
 
 func main() {
 	fmt.Println("[GOPHER] Starting program.")
-	//Here we will need to check whether the program should start as a client/server etc. probably through a argument in the command line on startup, e.g
-	//"./gopger-messanger --server <IP> <PORT>"
+	srv := server.Create("127.0.0.1:1452")
+	err := srv.Start()
+
+	if err != nil {
+		panic("ERROR STARTING SERVER IN MAIN")
+	}
 }
