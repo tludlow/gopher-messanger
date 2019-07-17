@@ -57,6 +57,9 @@ func handleTCPConnection(connection net.Conn) {
 	//encoder := json.NewEncoder(connection)
 	decoder := json.NewDecoder(connection)
 
+	proxy := core.CreateProxy()
+	defer proxy.Close()
+
 	//Handle the message incoming from the client
 	for {
 		message := core.Message{}
@@ -77,6 +80,8 @@ func handleTCPConnection(connection net.Conn) {
 
 		}
 
+		fmt.Println(message.Command)
+
 		//We now need to see what message was sent.
 		switch message.Command {
 		case "publish":
@@ -85,6 +90,11 @@ func handleTCPConnection(connection net.Conn) {
 		case "subscribe":
 			//handle publish
 			fmt.Println("[GOPHER] Subscribe command received on server")
+		case "ping":
+			//handle ping
+			fmt.Println("[GOPHER] Received ping from client (IN SERVER SWITCH)")
+		default:
+			panic("Unknown command issued to the gopher server.")
 		}
 	}
 }
